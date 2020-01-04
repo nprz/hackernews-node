@@ -8,16 +8,49 @@ const links = [
   }
 ];
 
+let idCount = links.length;
 // actual implementation of the GraphQL scheme
 const resolvers = {
   Query: {
     info: () => "this is the API of the hackernews clone",
-    feed: () => links
+    feed: () => links,
+    link: (parent, args) => {
+      return links.find(link => link.id === args.id);
+    }
   },
-  Link: {
-    id: parent => parent.id,
-    description: parent => parent.description,
-    url: parent => parent.url
+  Mutation: {
+    post: (parent, args) => {
+      const link = {
+        id: `link-${idCount++}`,
+        description: args.description,
+        url: args.url
+      };
+      links.push(link);
+      return link;
+    },
+    updateLink: (parent, args) => {
+      const linkIndex = links.findIndex(link => link.id === args.id);
+      if (linkIndex === -1) {
+        return;
+      }
+
+      links[linkIndex].url = args.url ? args.url : link[linkIndex].url;
+      links[linkIndex].description = args.description
+        ? args.description
+        : links[linkIndex].description;
+
+      return links[linkIndex];
+    },
+    deleteLink: (parent, args) => {
+      const linkIndex = links.findIndex(link => link.id === args.id);
+      if (linkIndex === -1) {
+        return;
+      }
+
+      const elemToDelete = links[linkIndex];
+      links.splice(linkIndex, 1);
+      return elemToDelete;
+    }
   }
 };
 
