@@ -1,14 +1,5 @@
 const { GraphQLServer } = require("graphql-yoga");
 
-const links = [
-  {
-    id: "link-0",
-    url: "https://www.howtographql.com/graphql-js/2-a-simple-query/",
-    description: "link description"
-  }
-];
-
-let idCount = links.length;
 // actual implementation of the GraphQL scheme
 const resolvers = {
   Query: {
