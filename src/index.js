@@ -2,17 +2,17 @@ const { prisma } = require("./generated/prisma-client");
 const { GraphQLServer } = require("graphql-yoga");
 
 // Resolvers
-const { feed } = require("./resolvers/Query");
-const { signup, login, post } = require("./resolvers/Mutations");
+const Query = require("./resolvers/Query");
+const Mutation = require("./resolvers/Mutation");
+const User = require("./resolvers/User");
+const Link = require("./resolvers/Link");
 
 // actual implementation of the GraphQL scheme
 const resolvers = {
-  Query: {
-    feed
-  },
-  Mutation: {
-    post
-  }
+  Query,
+  Mutation,
+  User,
+  Link
 };
 
 // creates server
